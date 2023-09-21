@@ -1,6 +1,14 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+Binaries/
+Intermediate/
+Saved/
+
+# Substance project files
+.sp/*
+*.spp
+
 # Compiled Object files
 *.slo
 *.lo
