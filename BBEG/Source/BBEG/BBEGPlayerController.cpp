@@ -16,10 +16,9 @@ DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 ABBEGPlayerController::ABBEGPlayerController()
 {
-	bShowMouseCursor = true;
+	bShowMouseCursor = false;
 	DefaultMouseCursor = EMouseCursor::Default;
-	CachedDestination = FVector::ZeroVector;
-	FollowTime = 0.f;
+	//CachedDestination = FVector::ZeroVector;
 }
 
 void ABBEGPlayerController::BeginPlay()
@@ -43,16 +42,10 @@ void ABBEGPlayerController::SetupInputComponent()
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
 		// Setup mouse input events
-		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Started, this, &ABBEGPlayerController::OnInputStarted);
-		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Triggered, this, &ABBEGPlayerController::OnSetDestinationTriggered);
-		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Completed, this, &ABBEGPlayerController::OnSetDestinationReleased);
-		EnhancedInputComponent->BindAction(SetDestinationClickAction, ETriggerEvent::Canceled, this, &ABBEGPlayerController::OnSetDestinationReleased);
-
-		// Setup touch input events
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Started, this, &ABBEGPlayerController::OnInputStarted);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Triggered, this, &ABBEGPlayerController::OnTouchTriggered);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Completed, this, &ABBEGPlayerController::OnTouchReleased);
-		EnhancedInputComponent->BindAction(SetDestinationTouchAction, ETriggerEvent::Canceled, this, &ABBEGPlayerController::OnTouchReleased);
+		EnhancedInputComponent->BindAction(UpAction, ETriggerEvent::Triggered, this, &ABBEGPlayerController::OnInputUp);
+		EnhancedInputComponent->BindAction(DownAction, ETriggerEvent::Triggered, this, &ABBEGPlayerController::OnInputDown);
+		EnhancedInputComponent->BindAction(LeftAction, ETriggerEvent::Triggered, this, &ABBEGPlayerController::OnInputLeft);
+		EnhancedInputComponent->BindAction(RightAction, ETriggerEvent::Triggered, this, &ABBEGPlayerController::OnInputRight);
 	}
 	else
 	{
@@ -60,66 +53,22 @@ void ABBEGPlayerController::SetupInputComponent()
 	}
 }
 
-void ABBEGPlayerController::OnInputStarted()
+void ABBEGPlayerController::OnInputDown()
 {
-	StopMovement();
+	GetCharacter()->AddMovementInput(FVector(-1, 0, 0), MoveSpeed);
 }
 
-// Triggered every frame when the input is held down
-void ABBEGPlayerController::OnSetDestinationTriggered()
+void ABBEGPlayerController::OnInputUp()
 {
-	// We flag that the input is being pressed
-	FollowTime += GetWorld()->GetDeltaSeconds();
-	
-	// We look for the location in the world where the player has pressed the input
-	FHitResult Hit;
-	bool bHitSuccessful = false;
-	if (bIsTouch)
-	{
-		bHitSuccessful = GetHitResultUnderFinger(ETouchIndex::Touch1, ECollisionChannel::ECC_Visibility, true, Hit);
-	}
-	else
-	{
-		bHitSuccessful = GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, true, Hit);
-	}
-
-	// If we hit a surface, cache the location
-	if (bHitSuccessful)
-	{
-		CachedDestination = Hit.Location;
-	}
-	
-	// Move towards mouse pointer or touch
-	APawn* ControlledPawn = GetPawn();
-	if (ControlledPawn != nullptr)
-	{
-		FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
-		ControlledPawn->AddMovementInput(WorldDirection, 1.0, false);
-	}
+	GetCharacter()->AddMovementInput(FVector(1, 0, 0), MoveSpeed);
 }
 
-void ABBEGPlayerController::OnSetDestinationReleased()
+void ABBEGPlayerController::OnInputLeft()
 {
-	// If it was a short press
-	if (FollowTime <= ShortPressThreshold)
-	{
-		// We move there and spawn some particles
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, CachedDestination);
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, FXCursor, CachedDestination, FRotator::ZeroRotator, FVector(1.f, 1.f, 1.f), true, true, ENCPoolMethod::None, true);
-	}
-
-	FollowTime = 0.f;
+	GetCharacter()->AddMovementInput(FVector(0, -1, 0), MoveSpeed);
 }
 
-// Triggered every frame when the input is held down
-void ABBEGPlayerController::OnTouchTriggered()
+void ABBEGPlayerController::OnInputRight()
 {
-	bIsTouch = true;
-	OnSetDestinationTriggered();
-}
-
-void ABBEGPlayerController::OnTouchReleased()
-{
-	bIsTouch = false;
-	OnSetDestinationReleased();
+	GetCharacter()->AddMovementInput(FVector(0, 1, 0), MoveSpeed);
 }

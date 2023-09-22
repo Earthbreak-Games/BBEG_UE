@@ -7,7 +7,10 @@
 		{
 			"Name": "BBEG",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
 		}
 	],
 	"Plugins": [
@@ -18,5 +21,11 @@
 				"Editor"
 			]
 		}
+	],
+	"TargetPlatforms": [
+		"IOS",
+		"Linux",
+		"Mac",
+		"Windows"
 	]
 }
