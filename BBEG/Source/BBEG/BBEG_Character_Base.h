@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "BBEG_Character_Base.generated.h"
-
 #include "InputAction.h"
+
+#include "BBEG_Character_Base.generated.h"
 
 UCLASS()
 class BBEG_API ABBEG_Character_Base : public ACharacter
