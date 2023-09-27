@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "BBEG_Character_Base.generated.h"
 
+#include "InputAction.h"
+
 UCLASS()
 class BBEG_API ABBEG_Character_Base : public ACharacter
 {
@@ -25,5 +27,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Enhanced Input Variables
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
+	UInputAction* inputJump;
 
 };
