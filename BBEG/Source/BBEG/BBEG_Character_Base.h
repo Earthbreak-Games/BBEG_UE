@@ -11,7 +11,7 @@
 
 #define BBEG_DEBUG_LOG(text) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT(text))
 
-UCLASS()
+UCLASS(Blueprintable)
 class BBEG_API ABBEG_Character_Base : public ACharacter
 {
 	GENERATED_BODY()
@@ -26,7 +26,9 @@ protected:
 
 	// Input functions
 	void EI_TriggerMove(const FInputActionValue& value);
+	UFUNCTION(BlueprintImplementableEvent, Category="BBEG|Input Triggers", meta=(DisplayName = "Melee Trigger"))
 	void EI_TriggerMelee();
+	UFUNCTION(BlueprintImplementableEvent, Category = "BBEG|Input Triggers", meta = (DisplayName = "Ranged Trigger"))
 	void EI_TriggerRanged();
 
 public:	
@@ -41,7 +43,7 @@ public:
 	UInputMappingContext* defaultMappingContext;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
-	UInputAction* inputJump;	// Using for debug cause is easy, maybe a dodge or roll or something later
+	UInputAction* inputJump;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
 	UInputAction* inputMelee;

@@ -67,12 +67,12 @@ void ABBEG_Character_Base::EI_TriggerMove(const FInputActionValue& value)
 	}
 }
 
-void ABBEG_Character_Base::EI_TriggerMelee()
-{
-	BBEG_DEBUG_LOG("Melee Firing");
-}
-
-void ABBEG_Character_Base::EI_TriggerRanged()
-{
-	BBEG_DEBUG_LOG("Ranged Firing");
-}
+//void ABBEG_Character_Base::EI_TriggerMelee()
+//{
+//	BBEG_DEBUG_LOG("Melee Firing");
+//}
+//
+//void ABBEG_Character_Base::EI_TriggerRanged()
+//{
+//	BBEG_DEBUG_LOG("Ranged Firing");
+//}
