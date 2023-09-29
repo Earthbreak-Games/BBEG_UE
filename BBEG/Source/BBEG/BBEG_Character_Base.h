@@ -6,13 +6,14 @@
 #include "GameFramework/Character.h"
 #include "InputAction.h"
 #include "InputMappingContext.h"
+#include "BBEG_BaseUnit.h"
 
 #include "BBEG_Character_Base.generated.h"
 
 #define BBEG_DEBUG_LOG(text) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT(text))
 
 UCLASS(Blueprintable)
-class BBEG_API ABBEG_Character_Base : public ACharacter
+class BBEG_API ABBEG_Character_Base : public ABBEG_BaseUnit
 {
 	GENERATED_BODY()
 
