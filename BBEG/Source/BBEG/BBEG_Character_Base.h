@@ -10,8 +10,6 @@
 
 #include "BBEG_Character_Base.generated.h"
 
-#define BBEG_DEBUG_LOG(text) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT(text))
-
 UCLASS(Blueprintable)
 class BBEG_API ABBEG_Character_Base : public ABBEG_BaseUnit
 {

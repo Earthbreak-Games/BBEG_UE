@@ -24,4 +24,3 @@ void ABBEG_RoomManager_Base::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-

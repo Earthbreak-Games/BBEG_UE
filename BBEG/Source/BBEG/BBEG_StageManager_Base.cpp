@@ -6,6 +6,8 @@
 #include "Kismet/GameplayStatics.h"	// I really don't want to use this but there doesn't seem to be another way
 #include "GameFramework/Character.h"// This is only here because of the above
 
+#include "BBEG.h"	// Hopefully not a mistake
+
 // Sets default values
 ABBEG_StageManager_Base::ABBEG_StageManager_Base()
 {
@@ -42,4 +44,10 @@ void ABBEG_StageManager_Base::OverlapBegins(UPrimitiveComponent* OverlappedCompo
 		FLatentActionInfo LatentInfo;
 		UGameplayStatics::LoadStreamLevel(this, LevelToLoad, true, true, LatentInfo);
 	}
+}
+
+
+void ABBEG_StageManager_Base::LoadStreamingRoom(FString testInput)
+{
+	BBEG_DEBUG_LOG("Scene Load Called");
 }

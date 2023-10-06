@@ -34,4 +34,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* OverlapVolume;
 
+	void LoadStreamingRoom(FString testInput);
+
 };
