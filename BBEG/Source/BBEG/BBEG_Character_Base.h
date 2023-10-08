@@ -7,6 +7,7 @@
 #include "InputAction.h"
 #include "InputMappingContext.h"
 
+#include "Hitbox.h"
 #include "BBEG_Character_Base.generated.h"
 
 #define BBEG_DEBUG_LOG(text) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT(text))
@@ -52,4 +53,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
 	UInputAction* inputMove;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo") 
+	Alligiance alligiance;
 };
