@@ -14,11 +14,11 @@ ABBEG_StageManager_Base::ABBEG_StageManager_Base()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	OverlapVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("OverlapVolume"));
-	RootComponent = OverlapVolume;
+	//OverlapVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("OverlapVolume"));
+	//RootComponent = OverlapVolume;
 
 
-	OverlapVolume->OnComponentBeginOverlap.AddUniqueDynamic(this, &ABBEG_StageManager_Base::OverlapBegins);
+	//OverlapVolume->OnComponentBeginOverlap.AddUniqueDynamic(this, &ABBEG_StageManager_Base::OverlapBegins);
 }
 
 // Called when the game starts or when spawned
@@ -35,16 +35,16 @@ void ABBEG_StageManager_Base::Tick(float DeltaTime)
 
 }
 
-void ABBEG_StageManager_Base::OverlapBegins(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	ACharacter* MyCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
-
-	if (OtherActor == Cast<AActor>(MyCharacter) && LevelToLoad != "")
-	{
-		FLatentActionInfo LatentInfo;
-		UGameplayStatics::LoadStreamLevel(this, LevelToLoad, true, true, LatentInfo);
-	}
-}
+//void ABBEG_StageManager_Base::OverlapBegins(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+//{
+//	ACharacter* MyCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
+//
+//	if (OtherActor == Cast<AActor>(MyCharacter) && LevelToLoad != "")
+//	{
+//		FLatentActionInfo LatentInfo;
+//		UGameplayStatics::LoadStreamLevel(this, LevelToLoad, true, true, LatentInfo);
+//	}
+//}
 
 
 void ABBEG_StageManager_Base::LoadStreamingRoom(FString testInput)
