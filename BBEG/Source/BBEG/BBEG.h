@@ -18,3 +18,12 @@ enum class ERoomTypes : uint8
 	RE_BossEnt		UMETA(DisplayName="Boss Entrance"),
 	RE_Boss			UMETA(DisplayName="Boss Room")
 };
+
+UENUM(BlueprintType)
+enum class ERoomSizes : uint8
+{
+	SE_Small		UMETA(DisplayName="Small"),
+	SE_Medium		UMETA(DisplayName="Medium"),
+	SE_Large		UMETA(DisplayName="Large"),
+	SE_XL			UMETA(DisplayName="Extra-Large")
+};
