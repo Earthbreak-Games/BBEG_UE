@@ -8,6 +8,7 @@
 #include "InputMappingContext.h"
 #include "BBEG_BaseUnit.h"
 
+#include "Hitbox.h"
 #include "BBEG_Character_Base.generated.h"
 
 UCLASS(Blueprintable)
@@ -51,4 +52,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
 	UInputAction* inputMove;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo") 
+	Alligiance alligiance;
 };
