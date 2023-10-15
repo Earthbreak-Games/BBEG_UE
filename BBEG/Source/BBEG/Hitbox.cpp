@@ -12,47 +12,66 @@ void AHitbox::BeginPlay()
 {
 	Super::BeginPlay();
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), 5, 5, FColor::Purple, true, -1, 0, 5);
 }
 
 void AHitbox::Tick(float DeltaTime)
 {
-	if (mType == AttackType::Ranged && initted)
+	Super::Tick(DeltaTime);
+
+	if (initted)
 	{
-		mProjectileElapsedTime += DeltaTime;
-		if (mProjectileElapsedTime >= mProjectileLifetime)
+		mElapsedTime += DeltaTime;
+		if (mElapsedTime >= mHitboxLifetime)
 		{
 			Destroy();
 		}
 	}
+
+	DrawDebugSphere(GetWorld(), GetActorLocation(), 25, 5, FColor::Purple, false, -1.0f, 0, 0.25f);
 }
 
 AHitbox::AHitbox()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	OnActorBeginOverlap.AddDynamic(this, &AHitbox::OnOverlapBegin);
 	OnActorEndOverlap.AddDynamic(this, &AHitbox::OnOverlapEnd);
+	
+	mProjectile = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
+	//mSphere = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+
 }
 
-AHitbox::AHitbox(int damage, ABBEG_Character_Base* owner, AttackType type, Alligiance alligiance, float projectileLifetime = 0, float projectileSpeed = 0)
+AHitbox::AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
 {
-	InitHitbox(damage, owner, type, alligiance, projectileLifetime, projectileSpeed);
+	InitHitbox(damage, hitboxOwner, type, alligiance, radius, lifetime, projectileSpeed);
 }
 
-void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* owner, AttackType type, Alligiance alligiance, float projectileLifetime = 0, float projectileSpeed = 0)
+void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
 {
 	mDamage = damage;
 	mType = type;
 	mAlligiance = alligiance;
+	mOwner = hitboxOwner;
 	initted = true;
+	mProjectileSpeed = projectileSpeed;
+	mHitboxLifetime = lifetime;
+	mProjectile->SetUpdatedComponent(RootComponent);
+	mRadius = radius;
+	Cast<USphereComponent>(this->GetCollisionComponent())->SetSphereRadius(mRadius);
 
 	if (type == AttackType::Ranged)
 	{
-		mProjectile = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
-		mProjectile->SetUpdatedComponent(RootComponent);
 		mProjectile->InitialSpeed = mProjectileSpeed;
 		mProjectile->MaxSpeed = mProjectileSpeed;
 		mProjectile->ProjectileGravityScale = 0.0f;
 		mProjectile->Velocity = mOwner->GetActorForwardVector() * mProjectileSpeed;
+	}
+	else
+	{
+		mProjectile->ProjectileGravityScale = 0.0f;
+		mProjectile->Velocity = FVector::Zero();
+
 	}
 }
 

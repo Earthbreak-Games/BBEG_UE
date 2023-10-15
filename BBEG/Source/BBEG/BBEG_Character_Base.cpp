@@ -3,6 +3,7 @@
 #include "BBEG_Character_Base.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "BBEG.h"
 
 // Sets default values
 ABBEG_Character_Base::ABBEG_Character_Base()

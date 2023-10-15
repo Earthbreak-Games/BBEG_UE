@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/TriggerSphere.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include <Components\SphereComponent.h>
 #include "Hitbox.generated.h"
 
 /**
@@ -42,10 +43,10 @@ public:
 
 	AHitbox();
 
-	AHitbox(int damage, ABBEG_Character_Base* owner, AttackType type, Alligiance alligiance, float projectileLifetime = 0, float projectileSpeed = 0);
+	AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime, float projectileSpeed);
 
 	UFUNCTION(BlueprintCallable, category = "Hitbox Functions")
-	void InitHitbox(int damage, ABBEG_Character_Base* owner, AttackType type, Alligiance alligiance, float projectileLifetime = 0, float projectileSpeed = 0);
+	void InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime, float projectileSpeed);
 
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* overlappedActor, class AActor* otherActor);
@@ -71,13 +72,21 @@ public:
 	float mProjectileSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
+	float mRadius;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
 	ABBEG_Character_Base* mOwner;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
 	UProjectileMovementComponent* mProjectile;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
-	float mProjectileLifetime;
+	// temporary until we get actual hitbox models made
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
+	USphereComponent* mSphere;*/
 
-	float mProjectileElapsedTime = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
+	float mHitboxLifetime;
+
+	float mElapsedTime = 0;
 };
