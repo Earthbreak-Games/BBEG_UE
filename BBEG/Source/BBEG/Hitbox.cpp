@@ -27,7 +27,7 @@ void AHitbox::Tick(float DeltaTime)
 		}
 	}
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), 25, 5, FColor::Purple, false, -1.0f, 0, 0.25f);
+	DrawDebugSphere(GetWorld(), GetActorLocation(), mRadius, 5, FColor::Purple, false, -1.0f, 0, 0.25f);
 }
 
 AHitbox::AHitbox()
