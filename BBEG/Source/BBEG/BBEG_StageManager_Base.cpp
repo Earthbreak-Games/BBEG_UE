@@ -6,7 +6,7 @@
 #include "Kismet/GameplayStatics.h"	// I really don't want to use this but there doesn't seem to be another way
 #include "GameFramework/Character.h"// This is only here because of the above
 
-#include "BBEG.h"	// Hopefully not a mistake
+//#include "BBEG.h"	// Hopefully not a mistake
 
 // Sets default values
 ABBEG_StageManager_Base::ABBEG_StageManager_Base()

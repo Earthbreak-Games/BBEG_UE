@@ -9,6 +9,7 @@
 UENUM(BlueprintType)
 enum class ERoomTypes : uint8
 {
+	RE_Wall			UMETA(DisplayName="Wall/NOT SET"),
 	RE_Starting		UMETA(DisplayName="Starting"),
 	RE_Combat		UMETA(DisplayName="Combat"),
 	RE_DCombat		UMETA(DisplayName="Dangerous Combat"),
@@ -16,7 +17,7 @@ enum class ERoomTypes : uint8
 	RE_SafeRoom		UMETA(DisplayName="Safe Room"),
 	RE_Shop			UMETA(DisplayName="Shop"),
 	RE_BossEnt		UMETA(DisplayName="Boss Entrance"),
-	RE_Boss			UMETA(DisplayName="Boss Room")
+	RE_Boss			UMETA(DisplayName="Boss Room"),
 };
 
 UENUM(BlueprintType)
