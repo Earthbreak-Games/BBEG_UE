@@ -2,7 +2,7 @@
 
 
 #include "CharacterStates.h"
-#include "../BBEG_BaseUnit.h"
+#include "BBEG_BaseUnit.h"
 
 /*
 * Base State
