@@ -3,6 +3,7 @@
 
 #include "BBEG_BaseUnit.h"
 #include "Buff.h"
+//#include "CharacterStates.h"
 
 // Sets default values
 ABBEG_BaseUnit::ABBEG_BaseUnit()
@@ -23,7 +24,7 @@ void ABBEG_BaseUnit::BeginPlay()
 void ABBEG_BaseUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	state.Update();
+	//state->Update();
 }
 
 // Called to bind functionality to input
