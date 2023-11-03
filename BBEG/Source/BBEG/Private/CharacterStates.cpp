@@ -2,7 +2,6 @@
 
 
 #include "CharacterStates.h"
-#include <BBEG\BBEG_BaseUnit.h>
 
 CharacterStates::CharacterStates()
 {

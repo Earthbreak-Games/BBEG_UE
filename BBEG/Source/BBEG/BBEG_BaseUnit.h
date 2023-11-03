@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include <CharacterStates.cpp>
+
 #include "BBEG_BaseUnit.generated.h"
+
+// Unit State forward declarations
+class BaseUnitState;
 
 UCLASS()
 class BBEG_API ABBEG_BaseUnit : public ACharacter
@@ -16,7 +19,7 @@ public:
 	// Sets default values for this character's properties
 	ABBEG_BaseUnit();
 
-	BaseUnitState state;
+	BaseUnitState& state;
 
 protected:
 	// Called when the game starts or when spawned
