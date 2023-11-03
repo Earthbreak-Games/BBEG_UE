@@ -23,7 +23,7 @@ void ABBEG_BaseUnit::BeginPlay()
 void ABBEG_BaseUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	state.Update();
 }
 
 // Called to bind functionality to input
