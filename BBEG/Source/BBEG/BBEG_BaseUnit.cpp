@@ -3,7 +3,7 @@
 
 #include "BBEG_BaseUnit.h"
 #include "Buff.h"
-//#include "CharacterStates.h"
+#include "CharacterStates.h"
 
 // Sets default values
 ABBEG_BaseUnit::ABBEG_BaseUnit()
@@ -24,7 +24,7 @@ void ABBEG_BaseUnit::BeginPlay()
 void ABBEG_BaseUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//state->Update();
+	State->Tick();
 }
 
 // Called to bind functionality to input
@@ -40,10 +40,10 @@ void ABBEG_BaseUnit::Hit(int damage)
 	{
 		damage = 0;
 	}
-	currHealth -= damage;
-	timeSinceLastHit = 0;
+	CurrHealth -= damage;
+	TimeSinceLastHit = 0;
 	
-	if (currHealth <= 0)
+	if (CurrHealth <= 0)
 	{
 		//character death
 	}
@@ -51,10 +51,10 @@ void ABBEG_BaseUnit::Hit(int damage)
 
 void ABBEG_BaseUnit::Heal(int healValue)
 {
-	currHealth += healValue;
-	if (currHealth > GetMaxHealth())
+	CurrHealth += healValue;
+	if (CurrHealth > GetMaxHealth())
 	{
-		currHealth = GetMaxHealth();
+		CurrHealth = GetMaxHealth();
 	}
 }
 
@@ -63,7 +63,7 @@ int ABBEG_BaseUnit::GetMaxHealth()
 	int maxHealthBuffTotal = 0;
 	//Iterate through active buffs and add up total buffed health
 
-	return maxHealthBuffTotal + baseHealth;
+	return maxHealthBuffTotal + BaseHealth;
 }
 
 int ABBEG_BaseUnit::GetDefense()

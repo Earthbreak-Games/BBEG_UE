@@ -8,7 +8,7 @@
 #include "BBEG_BaseUnit.generated.h"
 
 // Unit State forward declarations
-//class BaseUnitState;
+class FBaseUnitState;
 
 UCLASS()
 class BBEG_API ABBEG_BaseUnit : public ACharacter
@@ -19,17 +19,17 @@ public:
 	// Sets default values for this character's properties
 	ABBEG_BaseUnit();
 
-	//TSharedPtr<BaseUnitState> state;
+	TSharedPtr<FBaseUnitState> State;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// state enum
-	int baseHealth = 5;
-	int currHealth = 5;
-	int baseDefense = 0;
-	float timeSinceLastHit = 0;
+	// State enum
+	int BaseHealth = 5;
+	int CurrHealth = 5;
+	int BaseDefense = 0;
+	float TimeSinceLastHit = 0;
 	
 
 
