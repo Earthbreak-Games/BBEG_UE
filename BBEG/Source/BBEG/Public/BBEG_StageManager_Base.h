@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Math/Vector.h"
 
 #include "BBEG.h"
 #include "Components/BoxComponent.h"
@@ -35,6 +36,8 @@ protected:
 	int MinRoomCount = 5;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="StageManager|FloorConfig")
 	int MaxRoomCount = 10;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="StageManager|FloorConfig")
+	FVector StartPosition = FVector(0.0f);
 
 	//UFUNCTION()
 	//void OverlapBegins(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -72,14 +75,21 @@ protected:
 	public:
 		void Shuffle()
 		{
-			for (int32 i = data.Num() - 1; i != 0; i--)
+			for (int32 i = Data.Num() - 1; i != 0; i--)
 			{
 				int32 j = rand() % i;
-				data.Swap(i, j);
+				Data.Swap(i, j);
 			}
 		}
 
+		int8& operator[](size_t i) { return Data[i]; }
+		int32 Num() { return Data.Num(); }
+
 	private:
-		TArray<int8> data = { 0, 1, 2, 3 };
+		TArray<int8> Data = { 0, 1, 2, 3 };
 	};
+
+	WorldDirections Directions;
+
+	void Step(int32 X, int32 Y);
 };
