@@ -42,7 +42,10 @@ public:
 
 	virtual void Hit(int damage);
 	void Heal(int healValue);
+	UFUNCTION(BlueprintCallable)
 	int GetMaxHealth();
+	UFUNCTION(BlueprintCallable)
+	int GetCurrentHealth();
 	int GetDefense();
 	int GetMeleeAffinity();
 	int GetRangedAffinity();

@@ -68,6 +68,11 @@ int ABBEG_BaseUnit::GetMaxHealth()
 	return maxHealthBuffTotal + BaseHealth;
 }
 
+int ABBEG_BaseUnit::GetCurrentHealth()
+{
+	return CurrHealth;
+}
+
 int ABBEG_BaseUnit::GetDefense()
 {
 	int defenseBuffTotal = 0;
