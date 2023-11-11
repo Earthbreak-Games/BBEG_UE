@@ -50,4 +50,18 @@ public:
 	int GetMeleeAffinity();
 	int GetRangedAffinity();
 
+	UFUNCTION(BlueprintCallable)
+	EUnitState GetState();
+
+	UFUNCTION(BlueprintCallable)
+	void StartAttack(AHitbox* hitbox);
+
+	UFUNCTION(BlueprintCallable)
+	void Stop();
+
+	UFUNCTION(BlueprintCallable)
+	void PauseInput(); // disables movement inputs only, supposedly
+
+	UFUNCTION(BlueprintCallable)
+	void ResumeInput();
 };

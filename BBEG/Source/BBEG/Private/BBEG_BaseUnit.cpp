@@ -4,6 +4,7 @@
 #include "BBEG_BaseUnit.h"
 #include "Buff.h"
 #include "CharacterStates.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 ABBEG_BaseUnit::ABBEG_BaseUnit()
@@ -26,7 +27,9 @@ void ABBEG_BaseUnit::BeginPlay()
 void ABBEG_BaseUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	State->Tick();
+	State->Tick(DeltaTime);
+	
+	
 }
 
 // Called to bind functionality to input
@@ -95,4 +98,31 @@ int ABBEG_BaseUnit::GetRangedAffinity()
 	//Iterate through active buffs and add up total buffed ranged affinity
 
 	return rangedAffinityBuffTotal;
+}
+
+EUnitState ABBEG_BaseUnit::GetState()
+{
+	return State.Get()->StateType;
+}
+
+void ABBEG_BaseUnit::StartAttack(AHitbox* hitbox)
+{
+	State = TSharedPtr<AttackState>(new AttackState(this, hitbox));
+}
+
+void ABBEG_BaseUnit::Stop()
+{
+	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
+
+}
+
+void ABBEG_BaseUnit::PauseInput()
+{
+	GetLocalViewingPlayerController()->SetIgnoreMoveInput(true);
+
+}
+
+void ABBEG_BaseUnit::ResumeInput()
+{
+	GetLocalViewingPlayerController()->SetIgnoreMoveInput(false);
 }

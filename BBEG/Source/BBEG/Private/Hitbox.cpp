@@ -11,7 +11,7 @@
 void AHitbox::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 }
 
 void AHitbox::Tick(float DeltaTime)
@@ -27,7 +27,8 @@ void AHitbox::Tick(float DeltaTime)
 		}
 	}
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), mRadius, 5, FColor::Purple, false, -1.0f, 0, 0.25f);
+	if(isActive)
+		DrawDebugSphere(GetWorld(), GetActorLocation(), mRadius, 5, FColor::Purple, false, -1.0f, 0, 0.25f);
 }
 
 AHitbox::AHitbox()
@@ -44,10 +45,12 @@ AHitbox::AHitbox()
 
 AHitbox::AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
 {
-	InitHitbox(damage, hitboxOwner, type, alligiance, radius, lifetime, projectileSpeed);
+	//InitHitbox(damage, hitboxOwner, type, alligiance, radius, lifetime, projectileSpeed);
 }
 
-void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
+void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, 
+	float radius, float lifetime, float projectileSpeed,
+	float startupTime, float activeTime, float endlagTime)
 {
 	mDamage = damage;
 	mType = type;
@@ -58,21 +61,13 @@ void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackTy
 	mHitboxLifetime = lifetime;
 	mProjectile->SetUpdatedComponent(RootComponent);
 	mRadius = radius;
+	mStartupTime = startupTime;
+	mActiveTime = activeTime;
+	mEndlagTime = endlagTime;
+
 	Cast<USphereComponent>(this->GetCollisionComponent())->SetSphereRadius(mRadius);
 
-	if (type == AttackType::Ranged)
-	{
-		mProjectile->InitialSpeed = mProjectileSpeed;
-		mProjectile->MaxSpeed = mProjectileSpeed;
-		mProjectile->ProjectileGravityScale = 0.0f;
-		mProjectile->Velocity = mOwner->GetActorForwardVector() * mProjectileSpeed;
-	}
-	else
-	{
-		mProjectile->ProjectileGravityScale = 0.0f;
-		mProjectile->Velocity = FVector::Zero();
-
-	}
+	
 }
 
 void AHitbox::OnOverlapBegin(AActor* overlappedActor, AActor* otherActor)
@@ -107,4 +102,48 @@ void AHitbox::OnOverlapEnd(AActor* overlappedActor, AActor* otherActor)
 bool AHitbox::HitboxAlligianceCheck(Alligiance attackHitbox, Alligiance otherHitbox)
 {
 	return attackHitbox != otherHitbox;
+}
+
+float AHitbox::GetTotalAttackTime()
+{
+	return mStartupTime + mActiveTime + mEndlagTime;
+}
+
+void AHitbox::StartupPhase()
+{
+	currentPhase = AttackPhase::Startup;
+	// enable mesh or something?
+}
+
+void AHitbox::ActivePhase()
+{
+	currentPhase = AttackPhase::Active;
+	// 
+	isActive = true;
+
+	if (mType == AttackType::Ranged)
+	{
+		mProjectile->InitialSpeed = mProjectileSpeed;
+		mProjectile->MaxSpeed = mProjectileSpeed;
+		mProjectile->ProjectileGravityScale = 0.0f;
+		mProjectile->Velocity = mOwner->GetActorForwardVector() * mProjectileSpeed;
+	}
+	else
+	{
+		mProjectile->ProjectileGravityScale = 0.0f;
+		mProjectile->Velocity = FVector::Zero();
+
+	}
+}
+
+void AHitbox::EndLagPhase()
+{
+	currentPhase = AttackPhase::Endlag;
+	if (mType == AttackType::Melee)
+	{
+		isActive = false;
+		// make mesh disappear
+
+	}
+
 }

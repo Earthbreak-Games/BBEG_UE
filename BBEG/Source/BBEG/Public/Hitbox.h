@@ -12,6 +12,14 @@
  * 
  */
 
+UENUM()
+enum class AttackPhase : uint8
+{
+	Startup,
+	Active,
+	Endlag
+};
+
 UENUM(BlueprintType)
 enum class Alligiance : uint8 
 {
@@ -46,7 +54,9 @@ public:
 	AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime, float projectileSpeed);
 
 	UFUNCTION(BlueprintCallable, category = "Hitbox Functions")
-	void InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime, float projectileSpeed);
+	void InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, 
+		float radius, float lifetime, float projectileSpeed,
+		float startupTime, float activeTime, float endlagTime);
 
 	UFUNCTION()
 	void OnOverlapBegin(class AActor* overlappedActor, class AActor* otherActor);
@@ -57,6 +67,16 @@ public:
 	// Checks alligiance of the attack and colliding hitbox to determine if damage calculation should be done
 	UFUNCTION(BlueprintCallable, category = "Hitbox Functions")
 	static bool HitboxAlligianceCheck(Alligiance attackHitbox, Alligiance otherHitbox);
+
+	UFUNCTION(BlueprintCallable, category = "Hitbox Functions")
+	float GetTotalAttackTime();
+
+	void StartupPhase();
+
+	void ActivePhase();
+
+	void EndLagPhase();
+
 
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
@@ -74,6 +94,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
 	float mRadius;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
+	float mStartupTime;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
+	float mActiveTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
+	float mEndlagTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
 	ABBEG_Character_Base* mOwner;
@@ -89,4 +117,8 @@ public:
 	float mHitboxLifetime;
 
 	float mElapsedTime = 0;
+
+	bool isActive = false;
+
+	AttackPhase currentPhase = AttackPhase::Startup;
 };
