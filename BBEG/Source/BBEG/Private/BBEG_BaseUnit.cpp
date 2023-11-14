@@ -6,6 +6,8 @@
 #include "CharacterStates.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+#define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green, text)
+
 // Sets default values
 ABBEG_BaseUnit::ABBEG_BaseUnit()
 {
@@ -27,6 +29,12 @@ void ABBEG_BaseUnit::BeginPlay()
 void ABBEG_BaseUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (PendingState.IsValid())
+	{
+		State.Reset();
+		State = PendingState;
+		PendingState.Reset();
+	}
 	State->Tick(DeltaTime);
 	
 	
@@ -125,4 +133,41 @@ void ABBEG_BaseUnit::PauseInput()
 void ABBEG_BaseUnit::ResumeInput()
 {
 	GetLocalViewingPlayerController()->SetIgnoreMoveInput(false);
+}
+
+// planning on adding some other object to facilitate state transition rules, this is universal for now
+void ABBEG_BaseUnit::SwitchState(EUnitState newState, AHitbox* hitbox)
+{
+	switch (newState)
+	{
+	case EUnitState::EUS_Uninitialized:
+		break;
+	case EUnitState::EUS_Actionable:
+		break;
+	case EUnitState::EUS_Stopped:
+		break;
+	case EUnitState::EUS_Idle:
+	{
+		PendingState = TSharedPtr<IdleState>(new IdleState(this));
+		break;
+	}
+	case EUnitState::EUS_Move:
+		break;
+	case EUnitState::EUS_Attack:
+	{
+			if (hitbox != nullptr)
+			{
+				StartAttack(hitbox);
+			}
+			else
+			{
+				print("No hitbox provided on SwitchState call");
+			}
+		break;
+	}
+	case EUnitState::EUS_Dodge:
+		break;
+	default:
+		break;
+	}
 }

@@ -21,6 +21,12 @@ public:
 
 	TSharedPtr<FBaseUnitState> State;
 
+	// This variable exists so we can prepare a state change on the next frame
+	// We can't overwrite the state from within the state code or else the object will get destroyed too early
+	// If is valid check passes, this will overwrite State and become null again
+	TSharedPtr<FBaseUnitState> PendingState; 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -64,4 +70,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void ResumeInput();
+
+	UFUNCTION(BlueprintCallable)
+	void SwitchState(EUnitState newState, AHitbox* hitbox = nullptr);
 };

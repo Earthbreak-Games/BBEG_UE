@@ -43,6 +43,15 @@ AHitbox::AHitbox()
 
 }
 
+AHitbox::~AHitbox()
+{
+	mOwner = nullptr;
+	mProjectile->DestroyComponent();
+	mProjectile = nullptr;
+}
+
+
+
 AHitbox::AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
 {
 	//InitHitbox(damage, hitboxOwner, type, alligiance, radius, lifetime, projectileSpeed);

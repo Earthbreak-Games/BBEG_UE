@@ -5,6 +5,8 @@
 #include "BBEG_BaseUnit.h"
 #include <Kismet/GameplayStatics.h>
 
+#define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green, text)
+
 /*
 * Base State
 */
@@ -51,7 +53,8 @@ void AttackState::Tick(float deltaTime)
 	timeElapsed += deltaTime;
         if (timeElapsed > mHitbox.Get()->GetTotalAttackTime())
         {
-            BaseUnit->State = TSharedPtr<IdleState>(new IdleState(BaseUnit));
+            print("Exit attempt");
+            BaseUnit->SwitchState(EUnitState::EUS_Idle);
             BaseUnit->ResumeInput();
             
             return;
