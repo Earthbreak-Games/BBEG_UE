@@ -46,7 +46,6 @@ AHitbox::AHitbox()
 AHitbox::~AHitbox()
 {
 	mOwner = nullptr;
-	mProjectile->DestroyComponent();
 	mProjectile = nullptr;
 }
 
