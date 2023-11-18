@@ -61,7 +61,7 @@ class AttackState : public FBaseUnitState
 {
 public:
 	float timeElapsed;
-	TSharedPtr<AHitbox> mHitbox;
+	AHitbox* mHitbox;
 	AttackPhase phase;
 
 	AttackState(ABBEG_BaseUnit* b, AHitbox* h)
@@ -69,7 +69,7 @@ public:
 		BaseUnit = b;
 		StateType = EUnitState::EUS_Attack;
 		timeElapsed = 0;
-		mHitbox = TSharedPtr<AHitbox>(h);
+		mHitbox = h;
 		phase = AttackPhase::Startup;
 
 		Enter();

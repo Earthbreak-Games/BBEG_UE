@@ -51,24 +51,23 @@ void AttackState::Tick(float deltaTime)
 {
 	
 	timeElapsed += deltaTime;
-        if (timeElapsed > mHitbox.Get()->GetTotalAttackTime())
+        if (timeElapsed > mHitbox->GetTotalAttackTime())
         {
-            print("Exit attempt");
             BaseUnit->SwitchState(EUnitState::EUS_Idle);
             BaseUnit->ResumeInput();
             
             return;
         }
 
-        if (timeElapsed > mHitbox.Get()->mActiveTime + mHitbox.Get()->mStartupTime && phase == AttackPhase::Active)
+        if (timeElapsed > mHitbox->mActiveTime + mHitbox->mStartupTime && phase == AttackPhase::Active)
         {
-            mHitbox.Get()->EndLagPhase();
+            mHitbox->EndLagPhase();
             phase = AttackPhase::Endlag;
         }
 
-        if (timeElapsed > mHitbox.Get()->mStartupTime && phase == AttackPhase::Startup)
+        if (timeElapsed > mHitbox->mStartupTime && phase == AttackPhase::Startup)
         {
-            mHitbox.Get()->ActivePhase();
+            mHitbox->ActivePhase();
             phase = AttackPhase::Active;
         }
 	

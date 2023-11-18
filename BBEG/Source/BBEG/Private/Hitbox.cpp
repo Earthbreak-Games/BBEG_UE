@@ -80,32 +80,32 @@ void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackTy
 
 void AHitbox::OnOverlapBegin(AActor* overlappedActor, AActor* otherActor)
 {
-	if (otherActor && (otherActor != this))
+	if (!otherActor || (otherActor == this) || otherActor == mOwner)
 	{
-		print("Overlap Begin");
-		printf("Actor has entered trigger = %s", *otherActor->GetName());
-		ABBEG_Character_Base* actorCharComponent = Cast<ABBEG_Character_Base>(otherActor->GetComponentByClass(ABBEG_Character_Base::StaticClass()));
-
-		if (actorCharComponent != nullptr)
-		{
-			print("Enemy");
-		}
-		else
-		{
-			print("Friendly");
-		}
+		return;
 	}
-
+	
+	print(overlappedActor->GetName());
+	/*if (otherActor && (otherActor != this) && otherActor != mOwner)
+	{
+		return;
+	}*/
+	ABBEG_BaseUnit* actorCharComponent = Cast<ABBEG_BaseUnit>(otherActor);
+	if (actorCharComponent != nullptr && HitboxAlligianceCheck(mAlligiance, actorCharComponent->alligiance))
+	{
+		print("Hit");
+	}
 }
 
 void AHitbox::OnOverlapEnd(AActor* overlappedActor, AActor* otherActor)
 {
-	if (otherActor && (otherActor != this))
+	/*if (otherActor && (otherActor != this))
 	{
 		print("Overlap End");
 		printf("Actor has left trigger = %s", *overlappedActor->GetName());
-	}
+	}*/
 }
+
 
 bool AHitbox::HitboxAlligianceCheck(Alligiance attackHitbox, Alligiance otherHitbox)
 {

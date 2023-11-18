@@ -53,6 +53,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
 	UInputAction* inputMove;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo") 
-	Alligiance alligiance;
+	
 };

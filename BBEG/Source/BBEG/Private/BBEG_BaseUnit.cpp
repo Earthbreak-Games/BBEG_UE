@@ -132,7 +132,11 @@ void ABBEG_BaseUnit::PauseInput()
 
 void ABBEG_BaseUnit::ResumeInput()
 {
-	GetLocalViewingPlayerController()->SetIgnoreMoveInput(false);
+	GetLocalViewingPlayerController()->ResetIgnoreMoveInput();
+	if (GetLocalViewingPlayerController()->IsMoveInputIgnored())
+	{
+		print("Movement ignored");
+	}
 }
 
 // planning on adding some other object to facilitate state transition rules, this is universal for now

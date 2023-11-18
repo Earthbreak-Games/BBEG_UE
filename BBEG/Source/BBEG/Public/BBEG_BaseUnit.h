@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-
+#include "Hitbox.h"
 #include "BBEG_BaseUnit.generated.h"
 
 // Unit State forward declarations
@@ -73,4 +73,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SwitchState(EUnitState newState, AHitbox* hitbox = nullptr);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo")
+	Alligiance alligiance;
 };
