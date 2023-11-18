@@ -51,12 +51,12 @@ AHitbox::~AHitbox()
 
 
 
-AHitbox::AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
+AHitbox::AHitbox(int damage, ABBEG_BaseUnit* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
 {
 	//InitHitbox(damage, hitboxOwner, type, alligiance, radius, lifetime, projectileSpeed);
 }
 
-void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, 
+void AHitbox::InitHitbox(int damage, ABBEG_BaseUnit* hitboxOwner, AttackType type, Alligiance alligiance,
 	float radius, float lifetime, float projectileSpeed,
 	float startupTime, float activeTime, float endlagTime)
 {

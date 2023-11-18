@@ -53,10 +53,10 @@ public:
 
 	~AHitbox();
 
-	AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime, float projectileSpeed);
+	AHitbox(int damage, ABBEG_BaseUnit* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime, float projectileSpeed);
 
 	UFUNCTION(BlueprintCallable, category = "Hitbox Functions")
-	void InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, 
+	void InitHitbox(int damage, ABBEG_BaseUnit* hitboxOwner, AttackType type, Alligiance alligiance,
 		float radius, float lifetime, float projectileSpeed,
 		float startupTime, float activeTime, float endlagTime);
 
@@ -106,7 +106,7 @@ public:
 	float mEndlagTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
-	ABBEG_Character_Base* mOwner;
+	ABBEG_BaseUnit* mOwner;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hitbox Properties")
 	UProjectileMovementComponent* mProjectile;

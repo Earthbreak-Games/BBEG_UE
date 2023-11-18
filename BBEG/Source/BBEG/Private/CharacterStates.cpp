@@ -51,25 +51,27 @@ void AttackState::Tick(float deltaTime)
 {
 	
 	timeElapsed += deltaTime;
-        if (timeElapsed > mHitbox->GetTotalAttackTime())
-        {
-            BaseUnit->SwitchState(EUnitState::EUS_Idle);
-            BaseUnit->ResumeInput();
+    if (timeElapsed > mHitbox->GetTotalAttackTime())
+    {
+        BaseUnit->SwitchState(EUnitState::EUS_Idle);
+        BaseUnit->ResumeInput();
             
-            return;
-        }
+        return;
+    }
 
-        if (timeElapsed > mHitbox->mActiveTime + mHitbox->mStartupTime && phase == AttackPhase::Active)
-        {
-            mHitbox->EndLagPhase();
-            phase = AttackPhase::Endlag;
-        }
+    if (timeElapsed > mHitbox->mActiveTime + mHitbox->mStartupTime && phase == AttackPhase::Active)
+    {
+        if(mHitbox)
+            mHitbox->EndLagPhase(); // only runs once, destroys the hitbox object if it's a melee attack
 
-        if (timeElapsed > mHitbox->mStartupTime && phase == AttackPhase::Startup)
-        {
-            mHitbox->ActivePhase();
-            phase = AttackPhase::Active;
-        }
+        phase = AttackPhase::Endlag;
+    }
+
+    if (timeElapsed > mHitbox->mStartupTime && phase == AttackPhase::Startup)
+    {
+        mHitbox->ActivePhase();
+        phase = AttackPhase::Active;
+    }
 	
 }
 

@@ -126,7 +126,14 @@ void ABBEG_BaseUnit::Stop()
 
 void ABBEG_BaseUnit::PauseInput()
 {
-	GetLocalViewingPlayerController()->SetIgnoreMoveInput(true);
+	if (!GetLocalViewingPlayerController())
+	{
+		print("Nope");
+	}
+	else
+	{
+		GetLocalViewingPlayerController()->SetIgnoreMoveInput(true);
+	}
 
 }
 
