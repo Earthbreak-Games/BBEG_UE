@@ -21,14 +21,14 @@ ABBEG_BaseUnit::ABBEG_BaseUnit()
 // Called when the game starts or when spawned
 void ABBEG_BaseUnit::BeginPlay()
 {
-	Super::BeginPlay();
+	//Super::BeginPlay();
 	
 }
 
 // Called every frame
 void ABBEG_BaseUnit::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	//Super::Tick(DeltaTime);
 	if (PendingState.IsValid())
 	{
 		State.Reset();
@@ -43,7 +43,7 @@ void ABBEG_BaseUnit::Tick(float DeltaTime)
 // Called to bind functionality to input
 void ABBEG_BaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	//Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
 
@@ -120,14 +120,16 @@ void ABBEG_BaseUnit::StartAttack(AHitbox* hitbox)
 
 void ABBEG_BaseUnit::Stop()
 {
-	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
-
+	//GetCharacterMovement()->Velocity = FVector(0, 0, 0);
+	//Movemen
 }
 
 void ABBEG_BaseUnit::PauseInput()
 {
 	if (!GetLocalViewingPlayerController())
 	{
+		//PlayerController
+		
 		print("Nope");
 	}
 	else

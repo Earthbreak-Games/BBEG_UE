@@ -11,7 +11,7 @@
 class FBaseUnitState;
 
 UCLASS()
-class BBEG_API ABBEG_BaseUnit : public ACharacter
+class BBEG_API ABBEG_BaseUnit : public APawn
 {
 	GENERATED_BODY()
 
