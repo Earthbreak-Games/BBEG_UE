@@ -44,7 +44,7 @@ void ABBEG_BaseUnit::Tick(float DeltaTime)
 void ABBEG_BaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	
 }
 
 void ABBEG_BaseUnit::Hit(int damage)
@@ -126,21 +126,14 @@ void ABBEG_BaseUnit::Stop()
 
 void ABBEG_BaseUnit::PauseInput()
 {
-	if (!GetLocalViewingPlayerController())
-	{
-		print("Nope");
-	}
-	else
-	{
-		GetLocalViewingPlayerController()->SetIgnoreMoveInput(true);
-	}
-
+	// something about the enemy AI seems to override this, not sure how it works
+	GetController()->SetIgnoreMoveInput(true);
 }
 
 void ABBEG_BaseUnit::ResumeInput()
 {
-	GetLocalViewingPlayerController()->ResetIgnoreMoveInput();
-	if (GetLocalViewingPlayerController()->IsMoveInputIgnored())
+	GetController()->ResetIgnoreMoveInput();
+	if (GetController()->IsMoveInputIgnored())
 	{
 		print("Movement ignored");
 	}

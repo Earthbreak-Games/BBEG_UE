@@ -35,7 +35,7 @@ void IdleState::Enter()
 {
 	
 	// Stop the unit (no idea how as of right now)
-	BaseUnit->GetLocalViewingPlayerController()->SetIgnoreMoveInput(true);
+	//BaseUnit->GetController()->SetIgnoreMoveInput(true);
 }
 
 void MoveState::Tick(float deltaTime)
@@ -49,7 +49,8 @@ void MoveState::Enter()
 
 void AttackState::Tick(float deltaTime)
 {
-	
+    BaseUnit->PauseInput();
+
 	timeElapsed += deltaTime;
     if (timeElapsed > mHitbox->GetTotalAttackTime())
     {
@@ -77,5 +78,5 @@ void AttackState::Tick(float deltaTime)
 
 void AttackState::Enter()
 {
-    BaseUnit->PauseInput();
+    //BaseUnit->PauseInput();
 }

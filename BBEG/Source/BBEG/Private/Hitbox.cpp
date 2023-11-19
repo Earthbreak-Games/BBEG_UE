@@ -68,6 +68,7 @@ void AHitbox::InitHitbox(int damage, ABBEG_BaseUnit* hitboxOwner, AttackType typ
 	mProjectileSpeed = projectileSpeed;
 	mHitboxLifetime = lifetime;
 	mProjectile->SetUpdatedComponent(RootComponent);
+	mProjectile->ProjectileGravityScale = 0.0f;
 	mRadius = radius;
 	mStartupTime = startupTime;
 	mActiveTime = activeTime;
@@ -120,6 +121,7 @@ float AHitbox::GetTotalAttackTime()
 void AHitbox::StartupPhase()
 {
 	currentPhase = AttackPhase::Startup;
+
 	// enable mesh or something?
 }
 
