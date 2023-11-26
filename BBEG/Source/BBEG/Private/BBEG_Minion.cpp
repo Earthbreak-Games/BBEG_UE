@@ -2,6 +2,8 @@
 
 
 #include "BBEG_Minion.h"
+#define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green, text)
+
 
 ABBEG_Minion::ABBEG_Minion()
 {
@@ -42,6 +44,7 @@ void ABBEG_Minion::Mimic(FVector targetPosition)
         return;
     }
 
+
     FVector dir = (targetPosition - GetActorLocation()).GetUnsafeNormal();
     // Go faster if the player isn't moving? No movement modifier stuff in yet though
     Move(dir);
@@ -53,5 +56,6 @@ void ABBEG_Minion::Move(FVector dir)
 {
     dir.Set(dir.X, dir.Y, 0); // Z should already be 0 but just in case
     AddMovementInput(dir, 1.0f, true);
+    //SetActorRotation(GetActorRotation().Euler().X, )
 }
 

@@ -105,6 +105,7 @@ void AHitbox::OnOverlapEnd(AActor* overlappedActor, AActor* otherActor)
 		print("Overlap End");
 		printf("Actor has left trigger = %s", *overlappedActor->GetName());
 	}*/
+
 }
 
 

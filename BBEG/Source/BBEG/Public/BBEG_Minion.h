@@ -50,7 +50,7 @@ public:
     UPROPERTY(EditAnywhere)
     float catchupSpeedModifier;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mimic Properties")
+    UPROPERTY(EditAnywhere, Category = "Mimic Properties")
     float mimicFollowDistance;
 
     float mimicBrakingDrag;

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 
 #define BBEG_DEBUG_LOG(text) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT(text))
+#define BBEG_DEBUG_LOG2(text) GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, text)
 
 UENUM(BlueprintType)
 enum class ERoomTypes : uint8
