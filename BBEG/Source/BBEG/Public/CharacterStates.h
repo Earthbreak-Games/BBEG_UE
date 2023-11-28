@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Hitbox.h"
 
-UENUM()
+UENUM(BlueprintType)
 enum class EUnitState : uint8
 {
 	EUS_Uninitialized,

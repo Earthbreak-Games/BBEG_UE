@@ -63,6 +63,9 @@ public:
 	void StartAttack(AHitbox* hitbox);
 
 	UFUNCTION(BlueprintCallable)
+	void ForceMove(FVector dir);
+
+	UFUNCTION(BlueprintCallable)
 	void Stop();
 
 	UFUNCTION(BlueprintCallable)

@@ -15,7 +15,8 @@ ABBEG_BaseUnit::ABBEG_BaseUnit()
 	PrimaryActorTick.bCanEverTick = true;
 
 	State = TSharedPtr<FBaseUnitState>(new FBaseUnitState());
-
+	if (GetController())
+		GetController()->SetIgnoreMoveInput(true);
 }
 
 // Called when the game starts or when spawned
@@ -118,6 +119,13 @@ void ABBEG_BaseUnit::StartAttack(AHitbox* hitbox)
 	// Remove this if statement later when we have more comprehensive state transition rule controls
 	if(GetState() != EUnitState::EUS_Attack) 
 		State = TSharedPtr<AttackState>(new AttackState(this, hitbox));
+}
+
+void ABBEG_BaseUnit::ForceMove(FVector dir)
+{
+	dir.Set(dir.X, dir.Y, 0); // Z should already be 0 but just in case
+	AddMovementInput(dir, 1.0f, true);
+	//SetActorRotation(GetActorRotation().Euler().X, )
 }
 
 void ABBEG_BaseUnit::Stop()
