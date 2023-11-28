@@ -115,7 +115,9 @@ EUnitState ABBEG_BaseUnit::GetState()
 
 void ABBEG_BaseUnit::StartAttack(AHitbox* hitbox)
 {
-	State = TSharedPtr<AttackState>(new AttackState(this, hitbox));
+	// Remove this if statement later when we have more comprehensive state transition rule controls
+	if(GetState() != EUnitState::EUS_Attack) 
+		State = TSharedPtr<AttackState>(new AttackState(this, hitbox));
 }
 
 void ABBEG_BaseUnit::Stop()
