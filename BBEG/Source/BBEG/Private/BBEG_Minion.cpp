@@ -40,7 +40,7 @@ void ABBEG_Minion::Mimic(FVector targetPosition)
 
     if (FVector::DistXY(GetActorLocation(), targetPosition) <= mimicFollowDistance)
     {
-        SetActorRelativeLocation(targetPosition);
+        //SetActorRelativeLocation(targetPosition);
         return;
     }
 

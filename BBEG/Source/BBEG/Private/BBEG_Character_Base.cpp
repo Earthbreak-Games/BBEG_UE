@@ -40,9 +40,9 @@ void ABBEG_Character_Base::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	// add is null checks when switching from raw pointers
 	InputSystem->AddMappingContext(defaultMappingContext, 0);
 
-	enhancedInputComponent->BindAction(inputMelee, ETriggerEvent::Triggered, this, &ABBEG_Character_Base::EI_TriggerMelee);
+	enhancedInputComponent->BindAction(inputMelee, ETriggerEvent::Started, this, &ABBEG_Character_Base::EI_TriggerMelee);
 	enhancedInputComponent->BindAction(inputMove, ETriggerEvent::Triggered, this, &ABBEG_Character_Base::EI_TriggerMove);
-	enhancedInputComponent->BindAction(inputRanged, ETriggerEvent::Triggered, this, &ABBEG_Character_Base::EI_TriggerRanged);
+	enhancedInputComponent->BindAction(inputRanged, ETriggerEvent::Started, this, &ABBEG_Character_Base::EI_TriggerRanged);
 }
 
 void ABBEG_Character_Base::SetupMinionMimicPoints(FVector pos0, FVector pos1, FVector pos2)
