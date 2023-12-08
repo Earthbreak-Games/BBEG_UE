@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-
+#include "Hitbox.h"
 #include "BBEG_BaseUnit.generated.h"
 
 // Unit State forward declarations
@@ -20,6 +20,12 @@ public:
 	ABBEG_BaseUnit();
 
 	TSharedPtr<FBaseUnitState> State;
+
+	// This variable exists so we can prepare a state change on the next frame
+	// We can't overwrite the state from within the state code or else the object will get destroyed too early
+	// If is valid check passes, this will overwrite State and become null again
+	TSharedPtr<FBaseUnitState> PendingState; 
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -50,4 +56,27 @@ public:
 	int GetMeleeAffinity();
 	int GetRangedAffinity();
 
+	UFUNCTION(BlueprintCallable)
+	EUnitState GetState();
+
+	UFUNCTION(BlueprintCallable)
+	void StartAttack(AHitbox* hitbox);
+
+	UFUNCTION(BlueprintCallable)
+	void ForceMove(FVector dir);
+
+	UFUNCTION(BlueprintCallable)
+	void Stop();
+
+	UFUNCTION(BlueprintCallable)
+	void PauseInput(); // disables movement inputs only, supposedly
+
+	UFUNCTION(BlueprintCallable)
+	void ResumeInput();
+
+	UFUNCTION(BlueprintCallable)
+	void SwitchState(EUnitState newState, AHitbox* hitbox = nullptr);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo")
+	Alligiance alligiance;
 };

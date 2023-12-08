@@ -11,7 +11,7 @@
 void AHitbox::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 }
 
 void AHitbox::Tick(float DeltaTime)
@@ -27,7 +27,8 @@ void AHitbox::Tick(float DeltaTime)
 		}
 	}
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), mRadius, 5, FColor::Purple, false, -1.0f, 0, 0.25f);
+	if(isActive)
+		DrawDebugSphere(GetWorld(), GetActorLocation(), mRadius, 5, FColor::Purple, false, -1.0f, 0, 0.25f);
 }
 
 AHitbox::AHitbox()
@@ -42,12 +43,22 @@ AHitbox::AHitbox()
 
 }
 
-AHitbox::AHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
+AHitbox::~AHitbox()
 {
-	InitHitbox(damage, hitboxOwner, type, alligiance, radius, lifetime, projectileSpeed);
+	mOwner = nullptr;
+	mProjectile = nullptr;
 }
 
-void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
+
+
+AHitbox::AHitbox(int damage, ABBEG_BaseUnit* hitboxOwner, AttackType type, Alligiance alligiance, float radius, float lifetime = 0, float projectileSpeed = 0)
+{
+	//InitHitbox(damage, hitboxOwner, type, alligiance, radius, lifetime, projectileSpeed);
+}
+
+void AHitbox::InitHitbox(int damage, ABBEG_BaseUnit* hitboxOwner, AttackType type, Alligiance alligiance,
+	float radius, float lifetime, float projectileSpeed,
+	float startupTime, float activeTime, float endlagTime)
 {
 	mDamage = damage;
 	mType = type;
@@ -57,10 +68,71 @@ void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackTy
 	mProjectileSpeed = projectileSpeed;
 	mHitboxLifetime = lifetime;
 	mProjectile->SetUpdatedComponent(RootComponent);
+	mProjectile->ProjectileGravityScale = 0.0f;
 	mRadius = radius;
+	mStartupTime = startupTime;
+	mActiveTime = activeTime;
+	mEndlagTime = endlagTime;
+
 	Cast<USphereComponent>(this->GetCollisionComponent())->SetSphereRadius(mRadius);
 
-	if (type == AttackType::Ranged)
+	
+}
+
+void AHitbox::OnOverlapBegin(AActor* overlappedActor, AActor* otherActor)
+{
+	if (!otherActor || (otherActor == this) || otherActor == mOwner)
+	{
+		return;
+	}
+	
+	print(overlappedActor->GetName());
+	/*if (otherActor && (otherActor != this) && otherActor != mOwner)
+	{
+		return;
+	}*/
+	ABBEG_BaseUnit* actorCharComponent = Cast<ABBEG_BaseUnit>(otherActor);
+	if (actorCharComponent != nullptr && HitboxAlligianceCheck(mAlligiance, actorCharComponent->alligiance))
+	{
+		print("Hit");
+	}
+}
+
+void AHitbox::OnOverlapEnd(AActor* overlappedActor, AActor* otherActor)
+{
+	/*if (otherActor && (otherActor != this))
+	{
+		print("Overlap End");
+		printf("Actor has left trigger = %s", *overlappedActor->GetName());
+	}*/
+
+}
+
+
+bool AHitbox::HitboxAlligianceCheck(Alligiance attackHitbox, Alligiance otherHitbox)
+{
+	return attackHitbox != otherHitbox;
+}
+
+float AHitbox::GetTotalAttackTime()
+{
+	return mStartupTime + mActiveTime + mEndlagTime;
+}
+
+void AHitbox::StartupPhase()
+{
+	currentPhase = AttackPhase::Startup;
+
+	// enable mesh or something?
+}
+
+void AHitbox::ActivePhase()
+{
+	currentPhase = AttackPhase::Active;
+	// 
+	isActive = true;
+
+	if (mType == AttackType::Ranged)
 	{
 		mProjectile->InitialSpeed = mProjectileSpeed;
 		mProjectile->MaxSpeed = mProjectileSpeed;
@@ -75,36 +147,14 @@ void AHitbox::InitHitbox(int damage, ABBEG_Character_Base* hitboxOwner, AttackTy
 	}
 }
 
-void AHitbox::OnOverlapBegin(AActor* overlappedActor, AActor* otherActor)
+void AHitbox::EndLagPhase()
 {
-	if (otherActor && (otherActor != this))
+	currentPhase = AttackPhase::Endlag;
+	if (mType == AttackType::Melee)
 	{
-		print("Overlap Begin");
-		printf("Actor has entered trigger = %s", *otherActor->GetName());
-		ABBEG_Character_Base* actorCharComponent = Cast<ABBEG_Character_Base>(otherActor->GetComponentByClass(ABBEG_Character_Base::StaticClass()));
+		isActive = false;
+		// make mesh disappear
 
-		if (actorCharComponent != nullptr)
-		{
-			print("Enemy");
-		}
-		else
-		{
-			print("Friendly");
-		}
 	}
 
-}
-
-void AHitbox::OnOverlapEnd(AActor* overlappedActor, AActor* otherActor)
-{
-	if (otherActor && (otherActor != this))
-	{
-		print("Overlap End");
-		printf("Actor has left trigger = %s", *overlappedActor->GetName());
-	}
-}
-
-bool AHitbox::HitboxAlligianceCheck(Alligiance attackHitbox, Alligiance otherHitbox)
-{
-	return attackHitbox != otherHitbox;
 }

@@ -4,6 +4,9 @@
 #include "BBEG_BaseUnit.h"
 #include "Buff.h"
 #include "CharacterStates.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
+#define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green, text)
 
 // Sets default values
 ABBEG_BaseUnit::ABBEG_BaseUnit()
@@ -12,7 +15,8 @@ ABBEG_BaseUnit::ABBEG_BaseUnit()
 	PrimaryActorTick.bCanEverTick = true;
 
 	State = TSharedPtr<FBaseUnitState>(new FBaseUnitState());
-
+	if (GetController())
+		GetController()->SetIgnoreMoveInput(true);
 }
 
 // Called when the game starts or when spawned
@@ -26,14 +30,22 @@ void ABBEG_BaseUnit::BeginPlay()
 void ABBEG_BaseUnit::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	State->Tick();
+	if (PendingState.IsValid())
+	{
+		State.Reset();
+		State = PendingState;
+		PendingState.Reset();
+	}
+	State->Tick(DeltaTime);
+	
+	
 }
 
 // Called to bind functionality to input
 void ABBEG_BaseUnit::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	
 }
 
 void ABBEG_BaseUnit::Hit(int damage)
@@ -95,4 +107,81 @@ int ABBEG_BaseUnit::GetRangedAffinity()
 	//Iterate through active buffs and add up total buffed ranged affinity
 
 	return rangedAffinityBuffTotal;
+}
+
+EUnitState ABBEG_BaseUnit::GetState()
+{
+	return State.Get()->StateType;
+}
+
+void ABBEG_BaseUnit::StartAttack(AHitbox* hitbox)
+{
+	// Remove this if statement later when we have more comprehensive state transition rule controls
+	if(GetState() != EUnitState::EUS_Attack) 
+		State = TSharedPtr<AttackState>(new AttackState(this, hitbox));
+}
+
+void ABBEG_BaseUnit::ForceMove(FVector dir)
+{
+	dir.Set(dir.X, dir.Y, 0); // Z should already be 0 but just in case
+	AddMovementInput(dir, 1.0f, true);
+	//SetActorRotation(GetActorRotation().Euler().X, )
+}
+
+void ABBEG_BaseUnit::Stop()
+{
+	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
+
+}
+
+void ABBEG_BaseUnit::PauseInput()
+{
+	// something about the enemy AI seems to override this, not sure how it works
+	GetController()->SetIgnoreMoveInput(true);
+}
+
+void ABBEG_BaseUnit::ResumeInput()
+{
+	GetController()->ResetIgnoreMoveInput();
+	if (GetController()->IsMoveInputIgnored())
+	{
+		print("Movement ignored");
+	}
+}
+
+// planning on adding some other object to facilitate state transition rules, this is universal for now
+void ABBEG_BaseUnit::SwitchState(EUnitState newState, AHitbox* hitbox)
+{
+	switch (newState)
+	{
+	case EUnitState::EUS_Uninitialized:
+		break;
+	case EUnitState::EUS_Actionable:
+		break;
+	case EUnitState::EUS_Stopped:
+		break;
+	case EUnitState::EUS_Idle:
+	{
+		PendingState = TSharedPtr<IdleState>(new IdleState(this));
+		break;
+	}
+	case EUnitState::EUS_Move:
+		break;
+	case EUnitState::EUS_Attack:
+	{
+			if (hitbox != nullptr)
+			{
+				StartAttack(hitbox);
+			}
+			else
+			{
+				print("No hitbox provided on SwitchState call");
+			}
+		break;
+	}
+	case EUnitState::EUS_Dodge:
+		break;
+	default:
+		break;
+	}
 }

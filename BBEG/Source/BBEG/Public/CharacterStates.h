@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Hitbox.h"
 
+UENUM(BlueprintType)
 enum class EUnitState : uint8
 {
 	EUS_Uninitialized,
@@ -24,20 +26,20 @@ class BBEG_API FBaseUnitState
 {
 public:
 	FBaseUnitState();
-	~FBaseUnitState();
+	virtual ~FBaseUnitState();
 
 	EUnitState StateType;
 	bool bCanExit = true; // Set to false during certain actions like attacks, dodge rolls, or other uninterupatble states
 
-	virtual void Tick() {}
+	virtual void Tick(float deltaTime) {}
 
 	virtual void Enter() {}
 
-protected:
+
 	ABBEG_BaseUnit* BaseUnit;
 };
 
-class IdleState : FBaseUnitState
+class IdleState : public FBaseUnitState
 {
 public:
 	IdleState(ABBEG_BaseUnit* b)
@@ -47,7 +49,65 @@ public:
 		Enter();
 	}
 
-	void Tick() override;
+	void Tick(float deltaTime) override;
+
+	// Entering Idle State instantly kills any velocity the character has
+	void Enter() override;
+};
+
+
+
+class AttackState : public FBaseUnitState
+{
+public:
+	float timeElapsed;
+	AHitbox* mHitbox;
+	AttackPhase phase;
+
+	AttackState(ABBEG_BaseUnit* b, AHitbox* h)
+	{
+		BaseUnit = b;
+		StateType = EUnitState::EUS_Attack;
+		timeElapsed = 0;
+		mHitbox = h;
+		phase = AttackPhase::Startup;
+
+		Enter();
+	}
+
+	void Tick(float deltaTime) override;
+
+	// Entering Idle State instantly kills any velocity the character has
+	void Enter() override;
+};
+
+class MoveState : public FBaseUnitState
+{
+public:
+	MoveState(ABBEG_BaseUnit* b)
+	{
+		BaseUnit = b;
+		StateType = EUnitState::EUS_Move;
+		Enter();
+	}
+
+	void Tick(float deltaTime) override;
+
+	// Entering Idle State instantly kills any velocity the character has
+	void Enter() override;
+};
+
+class DodgeState : public FBaseUnitState
+{
+public:
+	DodgeState(ABBEG_BaseUnit* b)
+	{
+		BaseUnit = b;
+		StateType = EUnitState::EUS_Dodge;
+		Enter();
+	}
+
+	void Tick(float deltaTime) override;
 
 	// Entering Idle State instantly kills any velocity the character has
 	void Enter() override;

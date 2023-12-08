@@ -31,12 +31,23 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "BBEG|Input Triggers", meta = (DisplayName = "Ranged Trigger"))
 	void EI_TriggerRanged();
 
+	FVector mimicPoints[3];
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintCallable)
+	void SetupMinionMimicPoints(FVector pos0, FVector pos1, FVector pos2);
+
+	UFUNCTION(BlueprintCallable)
+	FVector GetMimicPointWorldPosition(int index);
+	
+	
+
 
 	// Enhanced Input Variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
@@ -53,6 +64,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
 	UInputAction* inputMove;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo") 
-	Alligiance alligiance;
+	
 };
