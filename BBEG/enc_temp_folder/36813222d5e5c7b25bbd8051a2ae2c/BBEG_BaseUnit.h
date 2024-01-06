@@ -79,8 +79,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo")
 	Alligiance alligiance;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo")
-	float turningSpeed;
 };
