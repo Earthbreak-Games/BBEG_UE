@@ -80,9 +80,13 @@ void ABBEG_Character_Base::EI_TriggerMove(const FInputActionValue& value)
 	float targetAngle = (UKismetMathLibrary::DegAtan2(moveVector.X, moveVector.Y)
 		+ PlayerCamera->GetCameraRotation().Euler().Z);
 	FVector moveDir = FQuat::MakeFromEuler(FVector(0, 0, targetAngle)) * FVector::ForwardVector;
+	moveDir.Normalize();
 	AddMovementInput(moveDir);
 
-	SetActorRotation(FRotator::MakeFromEuler(FVector(GetActorRotation().Euler().X, GetActorRotation().Euler().Y, targetAngle)));
+	SetActorRotation(FMath::Lerp(GetActorRotation(), moveDir.Rotation(), 0.05f));
+
+
+	//SetActorRotation(FRotator::MakeFromEuler(FVector(GetActorRotation().Euler().X, GetActorRotation().Euler().Y, targetAngle)));
 
 	//AddActorWorldRotation(FRotator::MakeFromEuler(FVector(GetActorRotation().Euler().X, GetActorRotation().Euler().Y, totalRotation)));
 }
