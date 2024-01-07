@@ -38,7 +38,7 @@ protected:
 	int BaseDefense = 0;
 	float TimeSinceLastHit = 0;
 	
-	UImage CharPortrait;
+	//UImage charPortrait;
 
 public:	
 	// Called every frame
