@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Hitbox.h"
 #include "Components/Image.h"
+#include "Hitbox.h"
 #include "BBEG_BaseUnit.generated.h"
 
 // Unit State forward declarations
@@ -38,7 +38,8 @@ protected:
 	int BaseDefense = 0;
 	float TimeSinceLastHit = 0;
 	
-	//UImage charPortrait;
+	//class UImage;
+	//UTexture2D charPortrait;
 
 public:	
 	// Called every frame
