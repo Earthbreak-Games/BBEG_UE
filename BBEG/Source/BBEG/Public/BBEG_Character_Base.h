@@ -30,6 +30,8 @@ protected:
 	void EI_TriggerMelee();
 	UFUNCTION(BlueprintImplementableEvent, Category = "BBEG|Input Triggers", meta = (DisplayName = "Ranged Trigger"))
 	void EI_TriggerRanged();
+	UFUNCTION(BlueprintImplementableEvent, Category = "BBEG|Input Triggers", meta = (DisplayName = "Dodge Trigger"))
+	void EI_TriggerDodge();
 
 	FVector mimicPoints[3];
 

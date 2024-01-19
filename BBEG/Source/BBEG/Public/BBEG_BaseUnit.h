@@ -66,6 +66,9 @@ public:
 	void ForceMove(FVector dir);
 
 	UFUNCTION(BlueprintCallable)
+	void Dodge(FVector dir);
+
+	UFUNCTION(BlueprintCallable)
 	void Stop();
 
 	UFUNCTION(BlueprintCallable)

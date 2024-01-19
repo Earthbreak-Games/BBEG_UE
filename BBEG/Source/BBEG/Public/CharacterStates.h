@@ -100,6 +100,9 @@ public:
 class DodgeState : public FBaseUnitState
 {
 public:
+
+	FVector dir;
+
 	DodgeState(ABBEG_BaseUnit* b)
 	{
 		BaseUnit = b;
