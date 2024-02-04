@@ -68,6 +68,9 @@ public:
 	void ForceMove(FVector dir);
 
 	UFUNCTION(BlueprintCallable)
+	void Dodge(FVector dir);
+
+	UFUNCTION(BlueprintCallable)
 	void Stop();
 
 	UFUNCTION(BlueprintCallable)
@@ -81,4 +84,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo")
 	Alligiance alligiance;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterInfo")
+	float turningSpeed;
 };

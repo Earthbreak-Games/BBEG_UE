@@ -5,6 +5,7 @@
 #include "Buff.h"
 #include "CharacterStates.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "MathUtil.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Green, text)
 
@@ -125,7 +126,7 @@ void ABBEG_BaseUnit::ForceMove(FVector dir)
 {
 	dir.Set(dir.X, dir.Y, 0); // Z should already be 0 but just in case
 	AddMovementInput(dir, 1.0f, true);
-	//SetActorRotation(GetActorRotation().Euler().X, )
+	
 }
 
 void ABBEG_BaseUnit::Stop()

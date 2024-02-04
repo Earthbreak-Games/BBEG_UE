@@ -80,11 +80,16 @@ void ABBEG_Character_Base::EI_TriggerMove(const FInputActionValue& value)
 	float targetAngle = (UKismetMathLibrary::DegAtan2(moveVector.X, moveVector.Y)
 		+ PlayerCamera->GetCameraRotation().Euler().Z);
 	FVector moveDir = FQuat::MakeFromEuler(FVector(0, 0, targetAngle)) * FVector::ForwardVector;
-	AddMovementInput(moveDir);
+	moveDir.Normalize();
 
-	SetActorRotation(FRotator::MakeFromEuler(FVector(GetActorRotation().Euler().X, GetActorRotation().Euler().Y, targetAngle)));
+	ForceMove(moveDir);
 
-	//AddActorWorldRotation(FRotator::MakeFromEuler(FVector(GetActorRotation().Euler().X, GetActorRotation().Euler().Y, totalRotation)));
+	SetActorRotation(FMath::Lerp(GetActorRotation(), moveDir.Rotation(), turningSpeed));
+}
+
+void ABBEG_Character_Base::EI_TriggerDodge()
+{
+	BBEG_DEBUG_LOG("Dodge Firing");
 }
 
 //void ABBEG_Character_Base::EI_TriggerMelee()
