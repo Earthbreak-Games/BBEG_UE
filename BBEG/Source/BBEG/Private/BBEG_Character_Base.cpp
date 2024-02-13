@@ -87,10 +87,10 @@ void ABBEG_Character_Base::EI_TriggerMove(const FInputActionValue& value)
 	SetActorRotation(FMath::Lerp(GetActorRotation(), moveDir.Rotation(), turningSpeed));
 }
 
-void ABBEG_Character_Base::EI_TriggerDodge()
-{
-	BBEG_DEBUG_LOG("Dodge Firing");
-}
+//void ABBEG_Character_Base::EI_TriggerDodge()
+//{
+//	BBEG_DEBUG_LOG("Dodge Firing");
+//}
 
 //void ABBEG_Character_Base::EI_TriggerMelee()
 //{

@@ -129,6 +129,10 @@ void ABBEG_BaseUnit::ForceMove(FVector dir)
 	
 }
 
+void ABBEG_BaseUnit::Dodge(FVector dir)
+{
+}
+
 void ABBEG_BaseUnit::Stop()
 {
 	GetCharacterMovement()->Velocity = FVector(0, 0, 0);
