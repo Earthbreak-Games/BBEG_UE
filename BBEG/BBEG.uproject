@@ -23,7 +23,7 @@
 		},
 		{
 			"Name": "AsyncLevelLoad",
-			"Enabled": true,
+			"Enabled": false,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fedd4da327a946a1ae5461da851ffcf1"
 		}
 	],
